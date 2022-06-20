@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const PORT = process.env.PORT || 5001;
+const port = process.env.PORT || 5001;
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,6 +18,6 @@ app.get("/",(req,res) => {
 });
 
 
-app.listen(PORT,()=>{
-    console.log(`App listening to port no ${PORT}`);
+app.listen(port,()=>{
+    console.log(`App listening to port no ${port}`);
     });
