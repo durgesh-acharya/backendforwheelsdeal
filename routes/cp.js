@@ -25,7 +25,7 @@ router.get('/cp', function(req, res, next) {
   router.get('/cp/byid/:id', function(req, res, next) {
     const id = req.params.id;
     
-    const sql = `SELECT * FROM cp WHERE associateid = ${id}`;
+    const sql = `SELECT * FROM cp WHERE cp_id = ${id}`;
     db.query(sql, function(err, row, fields) {
       if (err) {
         res.status(500).send({ error: 'Something failed!' })
@@ -40,8 +40,25 @@ router.get('/cp', function(req, res, next) {
     })
     });
     
+    // fetch cp with state and district
 
-
+    router.get('/cp/alldetailsbyid/:id', function(req, res, next) {
+      const id = req.params.id;
+      
+      const sql = `SELECT * FROM cp JOIN state on cp.cp_stateid = state.state_id JOIN district on cp.cp_districtid = district.district_id WHERE cp.cp_id = ${id}`;
+      db.query(sql, function(err, row, fields) {
+        if (err) {
+          res.status(500).send({ error: 'Something failed!' })
+        }
+        if(row.length > 0){
+          res.setHeader('Content-Type', 'application/json');
+          res.json([{status : true, data : row[0], msg : "cp retrived successfully!"}])
+        }else{
+          res.json([{status : false, msg : "No cp Found!"}])
+        }
+       
+      })
+      });
 
 
   module.exports = router;
